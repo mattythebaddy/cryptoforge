@@ -1,0 +1,10 @@
+# DCA — small daily buys as baseline
+symbol: BTC/USDT
+base_buy_amount: 10.0
+buy_frequency: daily
+buy_hour_utc: 14
+min_buy_amount: 5.0
+max_buy_amount: 25.0
+fng_enabled: true
+rsi_filter_enabled: false
+price_drop_bonus: true

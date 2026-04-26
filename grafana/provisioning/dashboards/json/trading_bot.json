@@ -1,0 +1,99 @@
+{
+  "annotations": {"list": []},
+  "title": "CryptoForge Trading Bot",
+  "uid": "cryptoforge-main",
+  "tags": ["crypto", "trading"],
+  "timezone": "utc",
+  "refresh": "10s",
+  "time": {"from": "now-1h", "to": "now"},
+  "panels": [
+    {
+      "id": 1, "title": "Equity", "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [{"expr": "cryptoforge_equity_total", "legendFormat": "Equity ($)"}],
+      "fieldConfig": {"defaults": {"unit": "currencyUSD", "custom": {"fillOpacity": 10}}}
+    },
+    {
+      "id": 2, "title": "Daily P&L", "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 0},
+      "targets": [{"expr": "cryptoforge_daily_pnl"}],
+      "fieldConfig": {"defaults": {"unit": "currencyUSD", "thresholds": {"steps": [
+        {"value": null, "color": "red"}, {"value": 0, "color": "green"}
+      ]}}}
+    },
+    {
+      "id": 3, "title": "Drawdown", "type": "gauge",
+      "gridPos": {"h": 4, "w": 4, "x": 16, "y": 0},
+      "targets": [{"expr": "cryptoforge_drawdown_pct"}],
+      "fieldConfig": {"defaults": {"max": 20, "unit": "percent", "thresholds": {"steps": [
+        {"value": 0, "color": "green"}, {"value": 5, "color": "yellow"}, {"value": 10, "color": "red"}
+      ]}}}
+    },
+    {
+      "id": 4, "title": "Win Rate", "type": "gauge",
+      "gridPos": {"h": 4, "w": 4, "x": 20, "y": 0},
+      "targets": [{"expr": "cryptoforge_win_rate_7d"}],
+      "fieldConfig": {"defaults": {"max": 100, "unit": "percent", "thresholds": {"steps": [
+        {"value": 0, "color": "red"}, {"value": 40, "color": "yellow"}, {"value": 55, "color": "green"}
+      ]}}}
+    },
+    {
+      "id": 5, "title": "Total Trades", "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 12, "y": 4},
+      "targets": [{"expr": "sum(cryptoforge_trades_total)"}],
+      "fieldConfig": {"defaults": {"thresholds": {"steps": [
+        {"value": 0, "color": "blue"}
+      ]}}}
+    },
+    {
+      "id": 6, "title": "Consecutive Losses", "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 16, "y": 4},
+      "targets": [{"expr": "cryptoforge_consecutive_losses"}],
+      "fieldConfig": {"defaults": {"thresholds": {"steps": [
+        {"value": 0, "color": "green"}, {"value": 3, "color": "yellow"}, {"value": 5, "color": "red"}
+      ]}}}
+    },
+    {
+      "id": 7, "title": "Open Positions ($)", "type": "stat",
+      "gridPos": {"h": 4, "w": 4, "x": 20, "y": 4},
+      "targets": [{"expr": "sum(cryptoforge_position_value)"}],
+      "fieldConfig": {"defaults": {"unit": "currencyUSD", "thresholds": {"steps": [
+        {"value": 0, "color": "blue"}
+      ]}}}
+    },
+    {
+      "id": 8, "title": "Trades by Strategy", "type": "piechart",
+      "gridPos": {"h": 8, "w": 6, "x": 0, "y": 8},
+      "targets": [{"expr": "sum by (strategy) (cryptoforge_trades_total)", "legendFormat": "{{strategy}}"}],
+      "options": {"legend": {"displayMode": "table", "placement": "bottom"}}
+    },
+    {
+      "id": 9, "title": "P&L by Strategy", "type": "bargauge",
+      "gridPos": {"h": 8, "w": 6, "x": 6, "y": 8},
+      "targets": [{"expr": "cryptoforge_pnl_total", "legendFormat": "{{symbol}} ({{strategy}})"}],
+      "fieldConfig": {"defaults": {"unit": "currencyUSD", "thresholds": {"steps": [
+        {"value": null, "color": "red"}, {"value": 0, "color": "green"}
+      ]}}}
+    },
+    {
+      "id": 10, "title": "Signals Generated vs Rejected", "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "targets": [
+        {"expr": "rate(cryptoforge_signals_generated_total[5m])", "legendFormat": "Generated: {{strategy}}"},
+        {"expr": "rate(cryptoforge_signals_rejected_total[5m])", "legendFormat": "Rejected: {{strategy}}"}
+      ]
+    },
+    {
+      "id": 11, "title": "Candles Processed", "type": "timeseries",
+      "gridPos": {"h": 6, "w": 12, "x": 0, "y": 16},
+      "targets": [{"expr": "rate(cryptoforge_candles_processed_total[1m]) * 60", "legendFormat": "candles/min"}],
+      "fieldConfig": {"defaults": {"custom": {"fillOpacity": 20}}}
+    },
+    {
+      "id": 12, "title": "Position Value by Symbol", "type": "timeseries",
+      "gridPos": {"h": 6, "w": 12, "x": 12, "y": 16},
+      "targets": [{"expr": "cryptoforge_position_value", "legendFormat": "{{symbol}}"}],
+      "fieldConfig": {"defaults": {"unit": "currencyUSD", "custom": {"fillOpacity": 10}}}
+    }
+  ]
+}

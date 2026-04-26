@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoForge Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">Crypto<span>Forge</span></div>
+            <span class="badge badge-paper" id="mode-badge">PAPER</span>
+            <span class="badge badge-regime" id="regime-badge">RANGING</span>
+        </div>
+        <div class="header-right">
+            <span class="uptime" id="uptime">Uptime: --</span>
+            <div class="connection-dot" id="ws-dot" title="WebSocket"></div>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Stat Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Equity</div>
+                <div class="stat-value" id="equity">$10,000.00</div>
+                <div class="stat-change neutral" id="total-pnl">+$0.00 (0.00%)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Win Rate</div>
+                <div class="stat-value" id="win-rate">0%</div>
+                <div class="stat-change neutral" id="total-trades">0 trades</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Open Positions</div>
+                <div class="stat-value" id="open-positions">0</div>
+                <div class="stat-change neutral" id="active-strats">0 strategies active</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Daily P&L</div>
+                <div class="stat-value" id="daily-pnl">$0.00</div>
+                <div class="stat-change neutral" id="drawdown">Drawdown: 0%</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">Equity Curve</div>
+                <div class="chart-container">
+                    <canvas id="equity-chart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">P&L by Strategy</div>
+                <div class="chart-container">
+                    <canvas id="strategy-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="trades">Trades</button>
+                <button class="tab-btn" data-tab="positions">Positions</button>
+                <button class="tab-btn" data-tab="strategies">Strategies</button>
+                <button class="tab-btn" data-tab="optimizer">Optimizer</button>
+                <button class="tab-btn" data-tab="risk">Risk</button>
+            </div>
+
+            <!-- Trades Tab -->
+            <div class="tab-content active" id="tab-trades">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Symbol</th>
+                            <th>Side</th>
+                            <th>Strategy</th>
+                            <th>Entry</th>
+                            <th>Exit</th>
+                            <th>P&L</th>
+                            <th>P&L %</th>
+                            <th>Result</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trades-body">
+                        <tr><td colspan="10" class="empty-state">No trades yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Positions Tab -->
+            <div class="tab-content" id="tab-positions">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Side</th>
+                            <th>Strategy</th>
+                            <th>Entry Price</th>
+                            <th>Amount</th>
+                            <th>Notional</th>
+                            <th>Stop Loss</th>
+                            <th>Take Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="positions-body">
+                        <tr><td colspan="8" class="empty-state">No open positions</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Strategies Tab -->
+            <div class="tab-content" id="tab-strategies">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>Status</th>
+                            <th>Trades</th>
+                            <th>Win Rate</th>
+                            <th>Total P&L</th>
+                            <th>Capital Mult</th>
+                        </tr>
+                    </thead>
+                    <tbody id="strategies-body">
+                        <tr><td colspan="6" class="empty-state">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Optimizer Tab -->
+            <div class="tab-content" id="tab-optimizer">
+                <div class="optimizer-grid">
+                    <div>
+                        <h3 style="margin-bottom: 12px; font-size: 14px; color: var(--text-secondary);">Status</h3>
+                        <div id="optimizer-stats"></div>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 12px; font-size: 14px; color: var(--text-secondary);">Capital Multipliers</h3>
+                        <div id="optimizer-multipliers"></div>
+                    </div>
+                </div>
+                <h3 style="margin: 20px 0 12px; font-size: 14px; color: var(--text-secondary);">Recent Journal Entries</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Strategy</th>
+                            <th>Side</th>
+                            <th>P&L</th>
+                            <th>Result</th>
+                            <th>Hold</th>
+                            <th>Entry Regime</th>
+                        </tr>
+                    </thead>
+                    <tbody id="optimizer-journal"></tbody>
+                </table>
+            </div>
+
+            <!-- Risk Tab -->
+            <div class="tab-content" id="tab-risk">
+                <div class="optimizer-grid" id="risk-content">
+                    <div class="empty-state">Loading risk data...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>

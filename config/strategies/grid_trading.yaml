@@ -1,0 +1,11 @@
+# Grid — tight scalping grid, 1m candles
+symbol: BTC/USDT
+grid_type: arithmetic
+upper_price: 70500
+lower_price: 68000
+num_grids: 10
+total_investment: 200
+stop_loss_pct: 5.0
+take_profit_pct: 5.0
+trailing_grid: false
+timeframe: 1m

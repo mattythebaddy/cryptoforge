@@ -1,0 +1,10 @@
+# Momentum — trend following, 1m primary, 5m confirmation
+symbol: BTC/USDT
+timeframe: 1m
+confirmation_timeframe: 5m
+min_indicators_aligned: 3
+atr_stop_multiplier: 2.5       # was 1.5 — too tight, instant stop-outs
+trailing_stop_atr_mult: 3.0    # was 2.0 — give trends room to breathe
+take_profit_rr_ratio: 2.5      # was 2.0 — wider target for wider stop
+cooldown_candles: 5             # was 3 — prevent rapid re-entry
+min_hold_candles: 5             # NEW — no exits before 5 candles held

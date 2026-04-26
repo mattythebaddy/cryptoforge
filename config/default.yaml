@@ -1,0 +1,44 @@
+exchange:
+  name: binance
+  testnet: true
+  rate_limit: true
+  timeout: 30000
+
+trading:
+  mode: paper
+  base_currency: USDT
+  trading_pairs:
+    - BTC/USDT
+    - ETH/USDT
+  default_timeframe: 5m
+  min_profit_threshold_pct: 0.08
+  maker_fee_pct: 0.1
+  taker_fee_pct: 0.1
+  estimated_slippage_pct: 0.05
+
+risk:
+  max_risk_per_trade_pct: 3.0
+  max_daily_loss_pct: 8.0
+  max_drawdown_pct: 15.0
+  max_consecutive_losses: 6
+  max_leverage: 10.0
+  max_open_positions: 6
+  max_portfolio_exposure_pct: 90.0
+  position_sizing_method: half_kelly
+  use_isolated_margin: true
+
+telegram:
+  alert_on_trade: true
+  alert_on_error: true
+  alert_on_circuit_breaker: true
+  daily_summary: true
+  daily_summary_hour: 20
+
+database:
+  timescaledb_url: postgresql+asyncpg://bot:cryptoforge_db_2026@localhost:5432/cryptoforge
+  redis_url: redis://localhost:6379/0
+
+logging:
+  level: INFO
+  json_output: false
+  log_dir: logs

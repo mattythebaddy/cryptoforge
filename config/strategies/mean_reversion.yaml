@@ -1,0 +1,11 @@
+# Mean Reversion — fast BB scalps on ETH, 5m
+symbol: ETH/USDT
+timeframe: 5m
+bb_period: 20
+bb_std: 2.0
+entry_bb_pct: 0.10
+exit_bb_pct: 0.50
+stop_loss_bb_pct: -0.10
+require_rsi_confirmation: true
+require_volume_spike: false
+max_hold_candles: 24
