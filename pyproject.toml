@@ -2,7 +2,7 @@
 name = "cryptoforge"
 version = "0.1.0"
 description = "Modular, multi-strategy, event-driven cryptocurrency trading bot"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "ccxt>=4.0",
     "redis>=5.0",
@@ -10,7 +10,7 @@ dependencies = [
     "sqlalchemy[asyncio]>=2.0",
     "alembic>=1.13",
     "pandas>=2.1",
-    "pandas-ta @ git+https://github.com/twopirllc/pandas-ta.git@development",
+    "pandas-ta>=0.4.67b0",
     "numpy>=1.26",
     "pydantic>=2.5",
     "pydantic-settings>=2.1",
@@ -45,7 +45,7 @@ ml = [
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]
@@ -55,5 +55,5 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 strict = true
